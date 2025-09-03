@@ -389,5 +389,21 @@ namespace Příjem_tankování
 
             MessageBox.Show("Hotovo. Soubor byl uložen bez řádků obsahujících mýto.", "Dokončeno", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+        private void menuKonec_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void menuOaplikaci_Click(object sender, EventArgs e)
+        {
+            var info = "Nástroje AutoPlan\n" +
+                       "Verze: 1.0\n" +
+                       "\n" +
+                       "Vývojář: Roman Fic\n" +
+                       "Vytvořeno pro společnost LUKROM, spol. s r.o.\n" +
+                       "\n" +
+                       "Licence:  GNU GPL Version 3";
+            MessageBox.Show(info, "O aplikaci", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 }
