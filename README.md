@@ -30,3 +30,8 @@ Tento projekt je licencován pod GPL-3.0 – viz soubor LICENSE.txt.
 
 ## Autor
 Roman Fic
+
+## Motivace
+Úprava cílové aplikace je vždy otázkou peněz – ať už jde o přímé náklady na implementaci, nebo čas strávený na vlastním vývoji, který se také počítá do nákladů.
+Na druhou stranu vývoj a jakákoli tvůrčí práce mohou člověka bavit, posouvat dál v jeho vědění, myšlení a celkově ho obohacovat.
+Proto tento projekt vznikl nejen jako praktické řešení konkrétní potřeby, ale i jako příležitost k učení a osobnímu růstu.
