@@ -43,7 +43,7 @@ Příjem_tankování.exe odebrat-myto <vstup.csv> <vystup.csv>
 - <vystup.dat> – cesta k výstupnímu DAT souboru
 ### Nápověda
 ```bash
-Příjem_tankování.exe --help
+Příjem_tankování.exe help
 ```
 Zobrazí nápovědu s dostupnými příkazy a jejich parametry.
 Obsah repozitáře
@@ -63,4 +63,4 @@ Vytvořeno pro společnost LUKROM, spol. s r.o.
 ## Motivace
 Úprava cílové aplikace je vždy otázkou peněz – ať už jde o přímé náklady na implementaci, nebo čas strávený na vlastním vývoji, který se také počítá do nákladů.
 Na druhou stranu vývoj a jakákoli tvůrčí práce mohou člověka bavit, posouvat dál v jeho vědění, myšlení a celkově ho obohacovat.
-Proto tento projekt vznikl nejen jako praktické řešení konkrétní potřeby, ale i jako příležitost k učení a osobnímu růstu
+Proto tento projekt vznikl nejen jako praktické řešení konkrétní potřeby, ale i jako příležitost k učení a osobnímu růstu.
