@@ -153,6 +153,13 @@
             this.menuOaplikaci.Name = "menuOaplikaci";
             this.menuOaplikaci.Text = "O aplikaci";
             this.menuOaplikaci.Click += new System.EventHandler(this.menuOaplikaci_Click);
+
+            // menuNapoveda
+            this.menuNapoveda = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuNapoveda.Name = "menuNapoveda";
+            this.menuNapoveda.Text = "Nápověda";
+            this.menuNapoveda.Click += new System.EventHandler(this.menuNapoveda_Click);
+            this.menuPomoc.DropDownItems.Add(this.menuNapoveda);
         }
 
         #endregion
@@ -170,5 +177,6 @@
         private System.Windows.Forms.ToolStripMenuItem menuKonec;
         private System.Windows.Forms.ToolStripMenuItem menuPomoc;
         private System.Windows.Forms.ToolStripMenuItem menuOaplikaci;
+        private System.Windows.Forms.ToolStripMenuItem menuNapoveda;
     }
 }

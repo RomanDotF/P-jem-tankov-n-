@@ -405,5 +405,106 @@ namespace Příjem_tankování
                        "Licence:  GNU GPL Version 3";
             MessageBox.Show(info, "O aplikaci", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+        // Převod UniPOS z příkazové řádky
+        public static void RunUniPOSConversion(string inputPath, string outputPath, string fuelingLocation)
+        {
+            // Načtení seznamu vyloučených SPZ
+            string spzFilePath = Path.Combine(Application.StartupPath, "vyloucene_spz.csv");
+            var excludedSpz = new HashSet<string>(
+                File.Exists(spzFilePath)
+                    ? File.ReadAllLines(spzFilePath, Encoding.UTF8)
+                        .Select(line => line.Split(';')[0].Trim().Trim('"').Replace(" ", "").ToUpperInvariant())
+                        .Where(spz => !string.IsNullOrEmpty(spz))
+                    : Enumerable.Empty<string>()
+            );
+
+            // Načtení osobních karet
+            string osobniKartyPath = Path.Combine(Application.StartupPath, "osobni_karty.csv");
+            var osobniKarty = new Dictionary<string, string>();
+            if (File.Exists(osobniKartyPath))
+            {
+                foreach (var line in File.ReadAllLines(osobniKartyPath, Encoding.UTF8))
+                {
+                    var parts = line.Split(';');
+                    if (parts.Length > 1)
+                    {
+                        var karta = parts[0].Trim().Trim('"');
+                        var spz = parts[1].Trim();
+                        if (!string.IsNullOrEmpty(karta) && !string.IsNullOrEmpty(spz))
+                            osobniKarty[karta] = spz;
+                    }
+                }
+            }
+
+            // Načtení a zpracování dat
+            var uniPosListRaw = new Form1().ImportUniPOSFromCsv(inputPath);
+            var uniPosList = new List<UniPOS>();
+
+            foreach (var u in uniPosListRaw)
+            {
+                string carDesignation = (u.CAR_DESIGNATION ?? "").Trim().Trim('"');
+                if (string.IsNullOrWhiteSpace(carDesignation))
+                {
+                    string karta = (u.PERSON_IDENT_NO ?? "").Trim().Trim('"');
+                    if (!string.IsNullOrEmpty(karta) && osobniKarty.TryGetValue(karta, out var spzFromKarta))
+                    {
+                        u.CAR_DESIGNATION = spzFromKarta;
+                        carDesignation = spzFromKarta;
+                    }
+                }
+
+                if (string.IsNullOrWhiteSpace(carDesignation) ||
+                    excludedSpz.Contains(carDesignation.ToUpperInvariant()))
+                {
+                    continue;
+                }
+
+                uniPosList.Add(u);
+            }
+
+            var autoPlanList = new Form1().MapUniPOSToAutoPlan(uniPosList, fuelingLocation);
+
+            // Metadata z prvního řádku vstupního souboru
+            var metadata = File.ReadLines(inputPath, Encoding.UTF8).FirstOrDefault() ?? "";
+
+            // Export
+            new Form1().ExportAutoPlanListToCsv(autoPlanList, outputPath, metadata);
+        }
+
+        // Převod SelfServiceSystem z příkazové řádky
+        public static void RunSelfServiceSystemConversion(string inputPath, string outputPath, string fuelingLocation)
+        {
+            // Načtení seznamu vyloučených SPZ
+            string spzFilePath = Path.Combine(Application.StartupPath, "vyloucene_spz.csv");
+            var excludedSpz = new HashSet<string>(
+                File.Exists(spzFilePath)
+                    ? File.ReadAllLines(spzFilePath, Encoding.UTF8)
+                        .Select(line => line.Split(';')[0].Trim().Trim('"').Replace(" ", "").ToUpperInvariant())
+                        .Where(spz => !string.IsNullOrEmpty(spz))
+                    : Enumerable.Empty<string>()
+            );
+
+            // Načtení a převod dat
+            var selfServiceList = new Form1().ImportSelfServiceSystemFromCsv(inputPath);
+            new Form1().ExportSelfServiceSystemToAutoPlanCsv(selfServiceList, outputPath, fuelingLocation, excludedSpz);
+        }
+
+        // Odebrání mýta z datového souboru z příkazové řádky
+        public static void RemoveMytoFromFile(string inputPath, string outputPath)
+        {
+            var lines = File.ReadAllLines(inputPath, Encoding.UTF8);
+            var filtered = lines
+                .Where(line =>
+                    !line.Contains("post-pay", StringComparison.OrdinalIgnoreCase) &&
+                    !line.Contains("CZMyto", StringComparison.OrdinalIgnoreCase))
+                .ToArray();
+
+            File.WriteAllLines(outputPath, filtered, Encoding.UTF8);
+        }
+        private void menuNapoveda_Click(object sender, EventArgs e)
+        {
+            using var dlg = new NapovedaForm();
+            dlg.ShowDialog(this);
+        }
     }
 }
