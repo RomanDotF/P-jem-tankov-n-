@@ -60,7 +60,8 @@ Příjem_tankování.exe odebrat-myto <vstup.csv> <vystup.csv>
 Příjem_tankování.exe help
 ```
 Zobrazí nápovědu s dostupnými příkazy a jejich parametry.
-Obsah repozitáře
+
+## Obsah repozitáře
 - Příjem tankování.sln – hlavní řešení projektu
 - Form1.cs, Form1.Designer.cs – hlavní logika aplikace
 - Program.cs – vstupní bod aplikace, zpracování argumentů
