@@ -5,7 +5,7 @@ do formátu, který akceptuje systém AutoPlan Kniha jízd.
 
 ## Funkce
 
-- - Načtení transakčních souborů z čerpacích systémů UniPOS a SelfServiceSystem
+- Načtení transakčních souborů z čerpacích systémů UniPOS a SelfServiceSystem
 - Automatická konverze do kompatibilního datového formátu pro AutoPlan Kniha jízd
 - Filtrování nevalidních transakcí – např. cizí SPZ nebo záznamy, které nemají být zahrnuty do knihy jízd
 - Evidence SPZ k filtrování v lokálním CSV souboru, který aplikace sama vytvoří a udržuje
